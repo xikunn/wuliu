@@ -15,14 +15,16 @@ npm run dev
 - Mock（默认）：http://localhost:5173  
   - 账号：`admin` / `admin123` 或 `staff` / `staff123`  
   - 支持注册（`POST /users/register` 契约）
-- 真后端：
+- 真后端：复制 [`.env.example`](.env.example) 为 `.env.local`（`npm run dev` 时 **勿** 填 `VITE_API_BASE`，走 Vite 代理）：
 
 ```bash
-# .env.local
-VITE_API_MODE=http
-VITE_API_BASE=http://localhost:8080
-VITE_WS_BASE=ws://localhost:8080
+cp .env.example .env.local
+# VITE_API_MODE=http
+# VITE_API_BASE=
+# VITE_WS_BASE=ws://localhost:8080
 ```
+
+联调步骤见 [`docs/collab/发件箱/2026-08-22-联调清单-全员.md`](../docs/collab/发件箱/2026-08-22-联调清单-全员.md)。
 
 请求头：`token: <JWT>`（与路灯后端一致，成功 `code=200`）。
 

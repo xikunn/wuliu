@@ -15,8 +15,19 @@
 ## 当前关键决策
 
 - 前端对齐路灯后端：见 [决策/2026-08-22-前端对齐路灯后端.md](决策/2026-08-22-前端对齐路灯后端.md)  
+- **联调清单（Must 闭环）：** [发件箱/2026-08-22-联调清单-全员.md](发件箱/2026-08-22-联调清单-全员.md)  
+- 前后端对齐审计：`docs/contracts/fe-be-alignment-audit.md`  
 - 契约真源：`smart-street-light-master/API文档.md`  
 - 路灯**有**注册接口；与旧「物流 MVP 不做注册」无关  
+
+## 说明文档索引
+
+| 文档 | 路径 |
+|------|------|
+| 联调清单 | [发件箱/2026-08-22-联调清单-全员.md](发件箱/2026-08-22-联调清单-全员.md) |
+| 对齐审计 | [../contracts/fe-be-alignment-audit.md](../contracts/fe-be-alignment-audit.md) |
+| 契约目录 | [../contracts/README.md](../contracts/README.md) |
+| 项目上下文 | [../../CONTEXT.md](../../CONTEXT.md) |
 
 ## RACI（待填）
 

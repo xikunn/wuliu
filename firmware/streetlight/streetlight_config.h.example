@@ -1,0 +1,20 @@
+/*
+ * 智慧路灯固件配置 — 复制为 streetlight_config.h 后修改
+ * deviceSn 必须与 Web 设备页、云端 MQTT topic 一致
+ */
+#ifndef STREETLIGHT_CONFIG_H
+#define STREETLIGHT_CONFIG_H
+
+#define WIFI_SSID           "YOUR_WIFI_SSID"
+#define WIFI_PSK            "YOUR_WIFI_PASSWORD"
+
+/* PC 局域网 IP，板与 PC 须同网段；Docker EMQX 映射 1883 */
+#define MQTT_BROKER_IP      "192.168.1.100"
+#define MQTT_BROKER_PORT    1883
+
+#define DEVICE_SN           "SN-RM-001"
+
+/* 光照上报周期（秒） */
+#define LIGHT_REPORT_SEC    15
+
+#endif

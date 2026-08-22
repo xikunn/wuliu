@@ -20,3 +20,4 @@ firmware/bearpi-hm_nano/
 **/*.pem
 **/.env
 **/.env.*
+!**/.env.example

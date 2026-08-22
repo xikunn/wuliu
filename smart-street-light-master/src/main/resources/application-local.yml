@@ -1,0 +1,10 @@
+# 本地 Docker 联调（与 docker-compose.yml 端口一致）
+# 启动：--spring.profiles.active=local,secret  或  mvn spring-boot:run -Dspring-boot.run.profiles=local,secret
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/smart-street-light
+    username: postgres
+
+mqtt:
+  broker-url: tcp://127.0.0.1:1883
+  client-id: smart-light-server-local

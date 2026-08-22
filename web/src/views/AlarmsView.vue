@@ -1,17 +1,43 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { api } from '../api/client'
+import { useRealtimeStore } from '../stores/realtime'
 import type { AlarmLog } from '../types/domain'
 
+const route = useRoute()
+const realtime = useRealtimeStore()
 const records = ref<AlarmLog[]>([])
 const status = ref('')
+
+function applyRouteFilter() {
+  status.value = typeof route.query.status === 'string' ? route.query.status : ''
+}
 
 async function load() {
   const res = await api.listAlarms({ page: 1, pageSize: 50, status: status.value || undefined })
   if (res.code === 200) records.value = res.data.records
 }
 
-onMounted(load)
+onMounted(async () => {
+  applyRouteFilter()
+  await load()
+})
+
+watch(
+  () => route.query,
+  async () => {
+    applyRouteFilter()
+    await load()
+  },
+)
+
+watch(
+  () => realtime.alarmSyncTick,
+  async () => {
+    await load()
+  },
+)
 
 async function resolve(id: number) {
   await api.resolveAlarm(id)

@@ -4,13 +4,22 @@ import type { StreetLightApi } from './types'
 
 const mode = (import.meta.env.VITE_API_MODE as string) || 'mock'
 const base = (import.meta.env.VITE_API_BASE as string) || ''
+const SESSION_KEY = 'streetlight.session'
 
 function token(): string | null {
   try {
-    const raw = localStorage.getItem('streetlight.session')
+    const raw = localStorage.getItem(SESSION_KEY)
     return raw ? (JSON.parse(raw) as { token: string }).token : null
   } catch {
     return null
+  }
+}
+
+function handleUnauthorized() {
+  localStorage.removeItem(SESSION_KEY)
+  const loginPath = '/login'
+  if (!window.location.pathname.endsWith(loginPath)) {
+    window.location.assign(`${loginPath}?expired=1`)
   }
 }
 
@@ -20,7 +29,12 @@ async function http<T>(path: string, init: RequestInit = {}): Promise<ApiResult<
   const t = token()
   if (t) headers.set('token', t)
   const res = await fetch(`${base}${path}`, { ...init, headers })
-  return (await res.json()) as ApiResult<T>
+  const body = (await res.json()) as ApiResult<T>
+  if (res.status === 401 || body.code === 401) {
+    handleUnauthorized()
+    throw new Error(body.errorMsg || '登录已过期，请重新登录')
+  }
+  return body
 }
 
 function createHttpApi(): StreetLightApi {

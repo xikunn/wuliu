@@ -41,7 +41,8 @@ BearPi / 传感器上报光照与状态 → MQTT/HTTP → Spring Boot 规则（�
 | `firmware/` | 板端说明 / junction（勿整树提交） |
 | `docs/collab/` | 跨部门协作（路灯） |
 | `docs/contracts/` | 契约索引（指向 API 文档） |
-| `docs/agents/` | Handoff |
+| `docs/agents/` | Handoff（入口 `HANDOFF-LATEST.md`） |
+| `smart-street-light-master/LOCAL-RUN.md` | **本地** Docker + jar 启动 |
 | `.cursor/skills/` | Agent skills |
 
 ## Git / 协作

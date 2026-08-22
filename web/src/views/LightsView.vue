@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { api } from '../api/client'
 import type { Device, LightReading, TrendPoint } from '../types/domain'
+import { todayRange } from '../utils/datetime'
 
 const devices = ref<Device[]>([])
 const deviceId = ref<number>(1)
@@ -19,8 +20,7 @@ async function loadDevices() {
 }
 
 async function load() {
-  const end = '2026-08-22 23:59:59'
-  const start = '2026-08-22 00:00:00'
+  const { start, end } = todayRange()
   const [list, tr] = await Promise.all([
     api.listLightReadings({ page: 1, pageSize: 20, deviceId: deviceId.value }),
     api.lightTrend(deviceId.value, start, end),

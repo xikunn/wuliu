@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { api } from '../api/client'
+import { useRealtimeStore } from '../stores/realtime'
 import type { Device } from '../types/domain'
 
+const route = useRoute()
+const realtime = useRealtimeStore()
 const records = ref<Device[]>([])
 const total = ref(0)
 const msg = ref('')
 const form = reactive({ deviceName: '', deviceSn: '' })
 const filter = reactive({ deviceName: '', status: '', onlineStatus: '' })
+
+function applyRouteFilter() {
+  filter.status = typeof route.query.status === 'string' ? route.query.status : ''
+  filter.onlineStatus =
+    typeof route.query.onlineStatus === 'string' ? route.query.onlineStatus : ''
+}
 
 async function load() {
   const res = await api.listDevices({ page: 1, pageSize: 50, ...filter })
@@ -17,7 +27,25 @@ async function load() {
   }
 }
 
-onMounted(load)
+onMounted(async () => {
+  applyRouteFilter()
+  await load()
+})
+
+watch(
+  () => route.query,
+  async () => {
+    applyRouteFilter()
+    await load()
+  },
+)
+
+watch(
+  () => realtime.deviceSyncTick,
+  async () => {
+    await load()
+  },
+)
 
 async function add() {
   const res = await api.addDevice({ ...form })
